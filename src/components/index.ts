@@ -2,6 +2,7 @@
 export { ActionButton } from "./Buttons/ActionButton";
 export { CommentItem } from "./Comments/CommentItem/CommentItem";
 export { CommentModal } from "./Comments/CommentModal/CommentModal";
+export { CommentSkeleton } from "./Comments/CommentSkeleton/CommentSkeleton";
 export { Header } from "./Headers/Header/Header";
 export { UserHeader } from "./Headers/UserHeader/UserHeader";
 export { CreatePost } from "./Posts/CreatePost/CreatePost";

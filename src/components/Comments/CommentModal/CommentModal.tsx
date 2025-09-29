@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Animated,
   Modal,
@@ -11,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Comment } from "../../../database/comments";
 import { useSwipeGesture } from "../../../hooks";
 import { CommentItem } from "../CommentItem/CommentItem";
+import { CommentSkeleton } from "../CommentSkeleton/CommentSkeleton";
 import { commentModalStyles } from "./styles";
 
 interface CommentModalProps {
@@ -26,16 +27,30 @@ export const CommentModal: React.FC<CommentModalProps> = ({
   comments,
   onClose,
 }) => {
+  // Loading state for skeleton display
+  const [isLoading, setIsLoading] = useState(true);
+
   // Use our custom hook for swipe gesture handling
   const { panResponder, translateY, animatedStyle } = useSwipeGesture({
     onSwipeDown: onClose,
     swipeThreshold: 150,
   });
 
-  // Reset position when modal appears
+  // Reset position when modal appears and simulate loading
   useEffect(() => {
     if (isVisible) {
       translateY.setValue(0);
+
+      // Start with loading state
+      setIsLoading(true);
+
+      // Simulate loading delay (2 seconds)
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+
+      // Clear timeout on component unmount or modal close
+      return () => clearTimeout(timer);
     }
   }, [isVisible, translateY]);
 
@@ -61,11 +76,16 @@ export const CommentModal: React.FC<CommentModalProps> = ({
           </View>
 
           <ScrollView style={commentModalStyles.commentsList}>
-            {comments.length > 0 ? (
+            {isLoading ? (
+              // Show skeleton loader while loading
+              <CommentSkeleton count={4} />
+            ) : comments.length > 0 ? (
+              // Show comments when loaded
               comments.map((comment) => (
                 <CommentItem key={comment.id} comment={comment} />
               ))
             ) : (
+              // Show empty state when no comments
               <Text style={commentModalStyles.noComments}>
                 No comments yet. Be the first to comment!
               </Text>

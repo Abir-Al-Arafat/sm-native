@@ -1,8 +1,8 @@
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { CreatePost, Header, PostFeed } from "../components";
 import { DUMMY_POSTS } from "../database/posts";
-import { Header, CreatePost, PostFeed } from "../components";
-import { indexStyles } from "../styles/indexStyles";
+import { indexStyles } from "./styles";
 
 export default function Index() {
   // Handler functions for user interactions

@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { CommentModal, CreatePost, Header, PostFeed } from "../components";
 import { DUMMY_POSTS } from "../database/posts";
 import { useComments } from "../hooks";
-import { indexStyles } from "./styles";
+import { indexStyles } from "../styles/appIndexStyles";
 
 export default function Index() {
   // custom comments hook

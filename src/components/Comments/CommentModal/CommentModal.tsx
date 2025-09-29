@@ -1,7 +1,15 @@
-import React from "react";
-import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect } from "react";
+import {
+  Animated,
+  Modal,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Comment } from "../../../database/comments";
+import { useSwipeGesture } from "../../../hooks";
 import { CommentItem } from "../CommentItem/CommentItem";
 import { commentModalStyles } from "./styles";
 
@@ -18,6 +26,19 @@ export const CommentModal: React.FC<CommentModalProps> = ({
   comments,
   onClose,
 }) => {
+  // Use our custom hook for swipe gesture handling
+  const { panResponder, translateY, animatedStyle } = useSwipeGesture({
+    onSwipeDown: onClose,
+    swipeThreshold: 150,
+  });
+
+  // Reset position when modal appears
+  useEffect(() => {
+    if (isVisible) {
+      translateY.setValue(0);
+    }
+  }, [isVisible, translateY]);
+
   return (
     <Modal
       visible={isVisible}
@@ -26,7 +47,12 @@ export const CommentModal: React.FC<CommentModalProps> = ({
       onRequestClose={onClose}
     >
       <SafeAreaView style={commentModalStyles.modalContainer}>
-        <View style={commentModalStyles.contentContainer}>
+        <Animated.View
+          {...panResponder.panHandlers}
+          style={[commentModalStyles.contentContainer, animatedStyle]}
+        >
+          <View style={commentModalStyles.swipeIndicator} />
+
           <View style={commentModalStyles.header}>
             <Text style={commentModalStyles.headerTitle}>Comments</Text>
             <TouchableOpacity onPress={onClose}>
@@ -45,7 +71,7 @@ export const CommentModal: React.FC<CommentModalProps> = ({
               </Text>
             )}
           </ScrollView>
-        </View>
+        </Animated.View>
       </SafeAreaView>
     </Modal>
   );

@@ -13,6 +13,14 @@ export const commentModalStyles = StyleSheet.create({
     minHeight: "60%",
     paddingVertical: 16,
   },
+  swipeIndicator: {
+    width: 40,
+    height: 5,
+    backgroundColor: "#D0D0D0",
+    borderRadius: 5,
+    alignSelf: "center",
+    marginBottom: 10,
+  },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -30,13 +38,16 @@ export const commentModalStyles = StyleSheet.create({
   closeButton: {
     fontSize: 24,
     color: "#65676B",
+    padding: 5,
   },
   commentsList: {
+    paddingHorizontal: 16,
     maxHeight: "80%",
   },
   noComments: {
-    padding: 16,
     textAlign: "center",
     color: "#65676B",
+    padding: 16,
+    fontStyle: "italic",
   },
 });

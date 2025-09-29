@@ -1,5 +1,7 @@
 // Export all components for easy importing
 export { ActionButton } from "./Buttons/ActionButton";
+export { CommentItem } from "./Comments/CommentItem/CommentItem";
+export { CommentModal } from "./Comments/CommentModal/CommentModal";
 export { Header } from "./Headers/Header/Header";
 export { UserHeader } from "./Headers/UserHeader/UserHeader";
 export { CreatePost } from "./Posts/CreatePost/CreatePost";

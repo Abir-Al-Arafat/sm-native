@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, View } from "react-native";
 import { Post } from "../../../interfaces/IPost";
 import { ActionButton } from "../../Buttons/ActionButton";
@@ -22,6 +22,22 @@ export const PostItem: React.FC<IPostItemProps> = ({
   onCommentPress,
   onSharePress,
 }) => {
+  // Local like state so the UI updates immediately on press
+  const [liked, setLiked] = useState<boolean>(false);
+  const [likeCount, setLikeCount] = useState<number>(post.likes ?? 0);
+
+  const handleLocalLike = () => {
+    // Toggle liked state and update displayed count
+    setLiked((prev) => {
+      const next = !prev;
+      setLikeCount((c) => (next ? c + 1 : Math.max(0, c - 1)));
+      return next;
+    });
+
+    // Forward the event if parent wants to react
+    onLikePress?.(post.id);
+  };
+
   return (
     <View style={[postItemStyles.postContainer, { backgroundColor }]}>
       <UserHeader
@@ -36,9 +52,9 @@ export const PostItem: React.FC<IPostItemProps> = ({
 
       <View style={postItemStyles.postActions}>
         <ActionButton
-          icon="👍"
-          text={post.likes}
-          onPress={() => onLikePress?.(post.id)}
+          icon={liked ? "👍" : "👍"}
+          text={likeCount}
+          onPress={handleLocalLike}
         />
         <ActionButton
           icon="💬"

@@ -1,3 +1,4 @@
+import Fontisto from "@expo/vector-icons/Fontisto";
 import React, { useState } from "react";
 import { Text, View } from "react-native";
 import { Post } from "../../../interfaces/IPost";
@@ -52,9 +53,24 @@ export const PostItem: React.FC<IPostItemProps> = ({
 
       <View style={postItemStyles.postActions}>
         <ActionButton
-          icon={liked ? "👍" : "👍"}
+          // icon={liked ? "👍" : "�"}
+          iconElement={
+            liked ? (
+              // <EvilIcons name="like" size={30} color="blue" />
+              <Fontisto
+                name="like"
+                size={16}
+                color="#6da3e9ff"
+                iconStyle="solid"
+              />
+            ) : (
+              // <EvilIcons name="like" size={24} color="gray" />
+              <Fontisto name="like" size={16} color="gray" iconStyle="brand" />
+            )
+          }
           text={likeCount}
           onPress={handleLocalLike}
+          textStyle={{ color: liked ? "#1877F2" : "#65676b" }}
         />
         <ActionButton
           icon="💬"

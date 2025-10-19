@@ -19,7 +19,8 @@ export const postItemStyles = StyleSheet.create({
   },
   postActions: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    // Let flex children (each button with flex:1) determine widths evenly
+    justifyContent: "space-between",
     paddingTop: 12,
     borderTopWidth: 1,
     borderTopColor: "#e4e6ea",

@@ -3,7 +3,8 @@ import { Text, TextStyle, TouchableOpacity, ViewStyle } from "react-native";
 import { actionButtonStyles } from "./styles";
 
 interface IActionButtonProps {
-  icon: string;
+  icon?: string;
+  iconElement?: React.ReactElement;
   text: string | number;
   onPress?: () => void;
   buttonStyle?: ViewStyle;
@@ -12,6 +13,7 @@ interface IActionButtonProps {
 
 export const ActionButton: React.FC<IActionButtonProps> = ({
   icon,
+  iconElement,
   text,
   onPress,
   buttonStyle,
@@ -23,7 +25,7 @@ export const ActionButton: React.FC<IActionButtonProps> = ({
       onPress={onPress}
     >
       <Text style={[actionButtonStyles.actionText, textStyle]}>
-        {icon} {text}
+        {iconElement ? iconElement : icon} {text}
       </Text>
     </TouchableOpacity>
   );

@@ -1,5 +1,10 @@
 import { useRef } from "react";
-import { Animated, PanResponder, PanResponderGestureState } from "react-native";
+import {
+  Animated,
+  Dimensions,
+  PanResponder,
+  PanResponderGestureState,
+} from "react-native";
 
 interface UseSwipeGestureProps {
   onSwipeDown?: () => void;
@@ -23,10 +28,12 @@ export const useSwipeGesture = ({
   // Animation value
   const translateY = useRef(new Animated.Value(0)).current;
 
+  const OFFSCREEN = Dimensions.get("window").height;
+
   // Handler for swipe down gesture
   const handleSwipeDown = () => {
     Animated.timing(translateY, {
-      toValue: 600,
+      toValue: OFFSCREEN,
       duration: 200,
       useNativeDriver: true,
     }).start(() => {
@@ -39,7 +46,7 @@ export const useSwipeGesture = ({
   // Handler for when swipe is canceled/not far enough
   const handleSwipeCancel = () => {
     Animated.timing(translateY, {
-      toValue: 0,
+      toValue: OFFSCREEN,
       duration: 200,
       useNativeDriver: true,
     }).start(() => {

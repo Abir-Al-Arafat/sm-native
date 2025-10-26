@@ -54,45 +54,72 @@ export const CommentModal: React.FC<CommentModalProps> = ({
     }
   }, [isVisible, translateY]);
 
+  // Background opacity animation
+  const backgroundOpacity = useState(new Animated.Value(0))[0];
+
+  // Animate background opacity when modal appears/disappears
+  useEffect(() => {
+    if (isVisible) {
+      Animated.timing(backgroundOpacity, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(backgroundOpacity, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [isVisible, backgroundOpacity]);
+
   return (
     <Modal
       visible={isVisible}
-      animationType="slide"
+      animationType="none"
       transparent={true}
       onRequestClose={onClose}
     >
-      <SafeAreaView style={commentModalStyles.modalContainer}>
-        <Animated.View
-          {...panResponder.panHandlers}
-          style={[commentModalStyles.contentContainer, animatedStyle]}
-        >
-          <View style={commentModalStyles.swipeIndicator} />
+      <Animated.View
+        style={[
+          commentModalStyles.modalContainer,
+          { opacity: backgroundOpacity },
+        ]}
+      >
+        <SafeAreaView style={{ flex: 1, justifyContent: "flex-end" }}>
+          <Animated.View
+            {...panResponder.panHandlers}
+            style={[commentModalStyles.contentContainer, animatedStyle]}
+          >
+            <View style={commentModalStyles.swipeIndicator} />
 
-          <View style={commentModalStyles.header}>
-            <Text style={commentModalStyles.headerTitle}>Comments</Text>
-            <TouchableOpacity onPress={onClose}>
-              <Text style={commentModalStyles.closeButton}>✕</Text>
-            </TouchableOpacity>
-          </View>
+            <View style={commentModalStyles.header}>
+              <Text style={commentModalStyles.headerTitle}>Comments</Text>
+              <TouchableOpacity onPress={onClose}>
+                <Text style={commentModalStyles.closeButton}>✕</Text>
+              </TouchableOpacity>
+            </View>
 
-          <ScrollView style={commentModalStyles.commentsList}>
-            {isLoading ? (
-              // Show skeleton loader while loading
-              <CommentSkeleton count={4} />
-            ) : comments.length > 0 ? (
-              // Show comments when loaded
-              comments.map((comment) => (
-                <CommentItem key={comment.id} comment={comment} />
-              ))
-            ) : (
-              // Show empty state when no comments
-              <Text style={commentModalStyles.noComments}>
-                No comments yet. Be the first to comment!
-              </Text>
-            )}
-          </ScrollView>
-        </Animated.View>
-      </SafeAreaView>
+            <ScrollView style={commentModalStyles.commentsList}>
+              {isLoading ? (
+                // Show skeleton loader while loading
+                <CommentSkeleton count={4} />
+              ) : comments.length ? (
+                // Show comments when loaded
+                comments.map((comment) => (
+                  <CommentItem key={comment.id} comment={comment} />
+                ))
+              ) : (
+                // Show empty state when no comments
+                <Text style={commentModalStyles.noComments}>
+                  No comments yet. Be the first to comment!
+                </Text>
+              )}
+            </ScrollView>
+          </Animated.View>
+        </SafeAreaView>
+      </Animated.View>
     </Modal>
   );
 };

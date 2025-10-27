@@ -1,4 +1,5 @@
 import Fontisto from "@expo/vector-icons/Fontisto";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Text, View } from "react-native";
 import { Post } from "../../../interfaces/IPost";
@@ -26,6 +27,7 @@ export const PostItem: React.FC<IPostItemProps> = ({
   // Local like state so the UI updates immediately on press
   const [liked, setLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(post.likes ?? 0);
+  const router = useRouter();
 
   const handleLocalLike = () => {
     // Toggle liked state and update displayed count
@@ -39,12 +41,19 @@ export const PostItem: React.FC<IPostItemProps> = ({
     onLikePress?.(post.id);
   };
 
+  const openProfile = () =>
+    router.push({
+      pathname: "/profile/[userId]",
+      params: { userId: String(post.user.id) },
+    });
+
   return (
     <View style={[postItemStyles.postContainer, { backgroundColor }]}>
       <UserHeader
         name={post.user.name}
         avatar={post.user.avatar}
         timestamp={post.timestamp}
+        onPress={openProfile}
       />
 
       <Text style={[postItemStyles.postContent, { color: contentColor }]}>

@@ -1,12 +1,6 @@
 import React from "react";
-import {
-  Image,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Post } from "../../../interfaces/IPost";
 import { userProfileStyles } from "./styles";
 
